@@ -13,33 +13,9 @@ import cv2
 from cv2 import morphologyEx, MORPH_CLOSE
 
 from joblib import Parallel, delayed
-from os import sep
 from glob import glob
 import time
 from random import randint
-
-
-
-
-def ak_get_embryoimage_dir(platform):
-    """
-    Specify the location of original images and corresponding ground truth images.
-
-    Parameters
-    ----------
-    platform : int
-        Speficy an operation system (Win or Mac).
-
-    Returns
-    -------
-    imageDir : str
-        Path to the location of original images and corresponding ground truth images.
-
-    """
-    imageDir = f"examples{sep}images{sep}"
-    groundtruthDir = f"examples{sep}groundtruth{sep}"
-    
-    return imageDir, groundtruthDir
 
 def ak_get_filename(imdata_dir):
     """

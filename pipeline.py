@@ -5,28 +5,18 @@
 Created on:     Wed Oct  6 22:01:57 2021
 Modified on:
 Python version: 3.9
-Description
--------
-Compare various noise level & evaluate FOM of proposed method and k-means
-clustering
-Pseudo code
-- ✓ Load all images in a folder
-- ✓ Load ground truth
-- ✓ Detect edge with proposed method (omit post processing)
-- ✓ Contour extraction
-- print (plt.subplots -> plt.close(fig) or plt.ioff() -> plt.savefig)
+Description: Detect edge & evaluate FOM of proposed method with various noise level
 """
 # %% Import libraries
 import numpy as np
 import matplotlib.pyplot as plt
 import skimage.io as io  # v.0.18.1
 from skimage.filters import median
-import os
-from cv2 import morphologyEx, MORPH_OPEN
 from skimage.morphology import disk
-from platform import system
+from cv2 import morphologyEx, MORPH_OPEN
 from pathlib import Path
-from cpseg_functions import ak_get_embryoimage_dir, \
+from os import sep
+from cpseg_functions import \
     ak_get_filename, add_noise, ak_rotate_edge_overlay, ak_post_process, \
     ak_edge_eval
 
@@ -58,13 +48,9 @@ nskeletonize = 1                                # 0: No skeletonization, 1: with
 evaluation = 0                                  # 0: No evaluation, 1: With evaluation
 
 # %% Processing
-# Check platform
-if system() == 'Windows':
-    platform = 0
-elif system() == 'Darwin':
-    platform = 1  # Mac
 # Specify directories
-imDir, gtDir = ak_get_embryoimage_dir(platform)
+imDir = f"examples{sep}images{sep}"
+gtDir = f"examples{sep}groundtruth{sep}"
 # Get image file name
 imFilename = ak_get_filename(imDir)
 # Set result containers
@@ -130,7 +116,7 @@ if evaluation == 1:
     mse_array[i,k] = score['mse']
     print(f"Pratt's FOM: {fom_array[i,k]}")
 
-#Subplot image: print (plt.subplots -> plt.close(fig) or plt.ioff() -> plt.savefig)
+#Show results
 fig, ax = plt.subplots(1,5, constrained_layout = True, figsize=(5, 1), dpi=600) # figsize: figure dimension (width, height) in inches.
 ax[0].imshow(Iori, cmap='gray')
 ax[1].imshow(Ien, cmap='gray')
