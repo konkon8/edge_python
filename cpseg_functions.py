@@ -180,8 +180,8 @@ def ak_get_edge_xpostion(iy,values):
         repeat_bkps = 1
         my_bkps = algo.predict(pen=penalty_value)
         while repeat_bkps in np.arange(30) and len(my_bkps) - 1 > my_bkps[-1] /10:
-            print(f"repeat_bkp:{repeat_bkps}")
-            print(f"len(my_bkps):{len(my_bkps)}")
+            #print(f"repeat_bkp:{repeat_bkps}")
+            #print(f"len(my_bkps):{len(my_bkps)}")
             my_bkps = algo.predict(pen=penalty_value)
             repeat_bkps += 1
 
@@ -247,7 +247,7 @@ def ak_get_edge(I, numBorder, model, y_interval, penalty_value, changepoint_algo
 
     t_e1 = time.time()
     elapsed_time = t_e1 - t_e0
-    print(f'Edge detection time(sec): {elapsed_time}')
+    #print(f'Edge detection time(sec): {elapsed_time}')
 
     return BW
 
