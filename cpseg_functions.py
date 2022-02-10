@@ -47,23 +47,23 @@ def add_noise(img, noise_density):
         pepper-noise-to-an-image-with-python/
 
     """
-    	
-    row , col = img.shape # Get the dimensions of the image
+    noisy = img.copy()
+    row , col = noisy.shape # Get the dimensions of the image
     number_of_pixels =int(( row * col ) * noise_density)
     
     # Randomly pick some pixels in the image for coloring them white (max)
     for i in range(number_of_pixels):
         y_coord=randint(0, row - 1) # Pick a random y coordinate		
         x_coord=randint(0, col - 1) # Pick a random x coordinate
-        img[y_coord][x_coord] = np.max(img) # Color that pixel to max
+        noisy[y_coord][x_coord] = np.max(noisy) # Color that pixel to max
     
     # Randomly pick some pixels in the image for coloring them black
     for i in range(number_of_pixels):
         y_coord=randint(0, row - 1) # Pick a random y coordinate
         x_coord=randint(0, col - 1) # Pick a random x coordinate
-        img[y_coord][x_coord] = 0 # Color that pixel to black
+        noisy[y_coord][x_coord] = 0 # Color that pixel to black
     
-    return img
+    return noisy
 
 
 def rot_edge(irot,values):

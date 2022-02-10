@@ -21,8 +21,8 @@ from cpseg_functions import \
     ak_edge_eval
 
 # %% Parameters
-imagefile_id = 0  #6                            # id of image file in the folder, i
-noisedensity_id = 0                             # Salt & pepper noise id, k
+imagefile_id = 3  #6                            # id of image file in the folder, i
+noisedensity_id = 3                             # Salt & pepper noise id, k
 noisedensity = [0, 0.05, 0.1, 0.4, 0.6, 0.9]    # Salt & pepper noise level list
 se_size = 200                                   # Background subtraction
 medianValue = [5, 5]#[30, 30]                   # Median filter
