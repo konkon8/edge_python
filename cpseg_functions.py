@@ -49,22 +49,28 @@ def add_noise(img, noise_density):
     """
     noisy = img.copy()
     row , col = noisy.shape # Get the dimensions of the image
+
+    #t_n0 = time.time()
+
     number_of_pixels =int(( row * col ) * noise_density)
-    
+
     # Randomly pick some pixels in the image for coloring them white (max)
     for i in range(number_of_pixels):
-        y_coord=randint(0, row - 1) # Pick a random y coordinate		
+        y_coord=randint(0, row - 1) # Pick a random y coordinate
         x_coord=randint(0, col - 1) # Pick a random x coordinate
         noisy[y_coord][x_coord] = np.max(noisy) # Color that pixel to max
-    
+
     # Randomly pick some pixels in the image for coloring them black
     for i in range(number_of_pixels):
         y_coord=randint(0, row - 1) # Pick a random y coordinate
         x_coord=randint(0, col - 1) # Pick a random x coordinate
         noisy[y_coord][x_coord] = 0 # Color that pixel to black
-    
-    return noisy
 
+    # t_n1 = time.time()
+    # t_n_elapsed = t_n1 - t_n0
+    # print(f'Time to produce noisy image: {t_n_elapsed} sec')
+
+    return noisy
 
 def rot_edge(irot,values):
     # Variables
