@@ -120,9 +120,9 @@ if evaluation == 1:
 fig, ax = plt.subplots(1,5, constrained_layout = True, figsize=(5, 1), dpi=600) # figsize: figure dimension (width, height) in inches.
 ax[0].imshow(Iori, cmap='gray')
 ax[1].imshow(Ien, cmap='gray')
-ax[2].imshow(BW, cmap='gray')
-ax[3].imshow(BWlast, cmap='gray')
-ax[4].imshow(BWgt, cmap='gray')
+ax[2].imshow(BW, cmap='gray_r')
+ax[3].imshow(BWlast, cmap='gray_r')
+ax[4].imshow(BWgt, cmap='gray_r')
 for i in np.arange(0,5):
     ax[i].set_xticks([])
     ax[i].set_yticks([])
