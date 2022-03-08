@@ -33,7 +33,7 @@ rotation_angle = 4 #3                           # 0: 45 degree, 3: semicircle
 changepoint_algo = 1                            # 0: number known, 1: number not known
 numBorder = 4                                   # Number of change points,
                                                 # if changepoint_algo = 1, use PELT for panelized detection
-penalty_value = 250000 #100000                  # Penalty cost when numBorder = 0
+penalty_value = 100000                          # Penalty cost when numBorder = 0
 numlayer = 1                                    # 0: single <- avoid in this workflow
                                                 # 1: overlay multiple
 model = "linear"                                # "rbf", "linear", "cosine"
@@ -99,12 +99,12 @@ else:
     print("'postprocess' should be either '0' or '1'.")
 
 # Cancatenate layers
-if BW_final.ndim == 2:
-    #BW_final = np.stack([BW_final, BWlast],axis=0)
-    BW_final = BWlast
-elif BW_final.ndim == 3:
-    BWlast_r = BWlast.reshape(1,BWlast.shape[0],BWlast.shape[1])
-    BW_final = np.concatenate((BW_final, BWlast_r),axis=0)
+# if BW_final.ndim == 2:
+#     #BW_final = np.stack([BW_final, BWlast],axis=0)
+#     BW_final = BWlast
+# elif BW_final.ndim == 3:
+#     BWlast_r = BWlast.reshape(1,BWlast.shape[0],BWlast.shape[1])
+#     BW_final = np.concatenate((BW_final, BWlast_r),axis=0)
 
 #%% Calculate FOM & MSE
 if evaluation == 0:
