@@ -11,7 +11,6 @@ from skimage.metrics import mean_squared_error, peak_signal_noise_ratio
 import ruptures as rpt
 import cv2
 from cv2 import morphologyEx, MORPH_CLOSE
-
 from joblib import Parallel, delayed
 from glob import glob
 import time

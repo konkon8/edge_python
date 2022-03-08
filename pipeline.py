@@ -47,6 +47,7 @@ select_biggest = 0                              # 0: No selection; 1: select big
 nskeletonize = 1                                # 0: No skeletonization, 1: with skeletonization
 evaluation = 0                                  # 0: No evaluation, 1: With evaluation
 
+
 # %% Processing
 # Specify directories
 imDir = f"examples{sep}images{sep}"
