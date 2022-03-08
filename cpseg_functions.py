@@ -18,20 +18,7 @@ import time
 from random import randint
 
 def ak_get_filename(imdata_dir):
-    """
-    Obtain an image file list with *_C0.tif in the specified directory.
 
-    Parameters
-    ----------
-    imdata_dir : str
-        A path to the directory containing image files to be processed.
-
-    Returns
-    -------
-    imFilename : str
-        A list of image files.
-
-    """
     imFilename = sorted(glob(imdata_dir + '*_C0.tif'))
     return imFilename
 
@@ -50,8 +37,6 @@ def add_noise(img, noise_density):
     noisy = img.copy()
     row , col = noisy.shape # Get the dimensions of the image
 
-    #t_n0 = time.time()
-
     number_of_pixels =int(( row * col ) * noise_density)
 
     # Randomly pick some pixels in the image for coloring them white (max)
@@ -66,10 +51,6 @@ def add_noise(img, noise_density):
         x_coord=randint(0, col - 1) # Pick a random x coordinate
         noisy[y_coord][x_coord] = 0 # Color that pixel to black
 
-    # t_n1 = time.time()
-    # t_n_elapsed = t_n1 - t_n0
-    # print(f'Time to produce noisy image: {t_n_elapsed} sec')
-
     return noisy
 
 def rot_edge(irot,values):
@@ -82,9 +63,7 @@ def rot_edge(irot,values):
     im = fromarray(I)  # Convert to pillow object
     J_plt = im.rotate(rot_degree, expand=True, fillcolor=edge_mean)  # Rotate
     J_np = np.array(J_plt)  # Convert to array
-    J_Height, J_Width = J_np.shape  # Size of rotated image
     J = J_np
-    #print(F'Angle {irot} degree rotated'.format(irot=irot))
 
     # Border detection
     BW1 = cps.ak_get_edge(J, numBorder, model, y_interval, penalty_value, changepoint_algo)
@@ -186,8 +165,6 @@ def ak_get_edge_xpostion(iy,values):
         repeat_bkps = 1
         my_bkps = algo.predict(pen=penalty_value)
         while repeat_bkps in np.arange(30) and len(my_bkps) - 1 > my_bkps[-1] /10:
-            #print(f"repeat_bkp:{repeat_bkps}")
-            #print(f"len(my_bkps):{len(my_bkps)}")
             my_bkps = algo.predict(pen=penalty_value)
             repeat_bkps += 1
 
@@ -199,7 +176,6 @@ def ak_get_edge_xpostion(iy,values):
             xpos = xBorder[0:xBorder.size].T
     elif changepoint_algo == 0: # Number of border position fixed
         my_bkps = algo.predict(n_bkps=numBorder)
-        #xBorder = np.floor(np.array(my_bkps) + 1)
         xBorder = np.floor(np.array(my_bkps[0:-1])) # Avoid total indexes at the end
         xpos = xBorder[0:numBorder].T
 
@@ -248,8 +224,15 @@ def ak_get_edge(I, numBorder, model, y_interval, penalty_value, changepoint_algo
     subVector_h2 = np.ravel(xChangePoint, order='F').astype(np.int64)
     BW = np.zeros((I.shape[0], I.shape[1]))
     my_index = np.arange(len(subVector_h1)).astype(np.int64)
-    for i in my_index:
-        BW[subVector_h1[i], subVector_h2[i]] = 1
+
+
+    BW[subVector_h1[my_index], subVector_h2[my_index]] = 1
+
+    # Remove edges at the border
+    BW[:9,:]           = 0
+    BW[-10:-1,:]       = 0
+    BW[:,0:9]          = 0
+    BW[:,-10:-1]       = 0
 
     t_e1 = time.time()
     elapsed_time = t_e1 - t_e0
@@ -284,8 +267,9 @@ def ak_post_process(BW,smallNoiseRemov,senoise,neib,select_biggest,nskeletonize)
     -------
     
     """
+
     # Remove signal at the edge
-    BW = clear_border(BW) # remove artifacts connected to image border
+    #BW = clear_border(BW) # remove artifacts connected to image border
    
     # Remove small objects
     BW = BW.astype('uint8')
